@@ -77,28 +77,30 @@ def precompute_alignments(tags, seqs, alignment_dir, args, is_multimer):
                 alignment_dir,
                 os.path.join(alignment_dir, tag),
             )
-        if(args.use_precomputed_alignments is None and not os.path.isdir(local_alignment_dir)):
-            logger.info(f"Generating alignments for {tag}...")
+        # 需要搜索 MSA
+        # if (args.use_precomputed_alignments is None and not os.path.isdir(local_alignment_dir)):
+        logger.info(f"Generating alignments for {tag}...")
 
-            os.makedirs(local_alignment_dir)
+        os.makedirs(local_alignment_dir)
 
-            alignment_runner = data_pipeline.AlignmentRunner(
-                jackhmmer_binary_path=args.jackhmmer_binary_path,
-                hhblits_binary_path=args.hhblits_binary_path,
-                uniref90_database_path=args.uniref90_database_path,
-                mgnify_database_path=args.mgnify_database_path,
-                bfd_database_path=args.bfd_database_path,
-                uniref30_database_path=args.uniref30_database_path,
-                uniclust30_database_path=args.uniclust30_database_path,
-                no_cpus=args.cpus,
-            )
-            alignment_runner.run(
-                tmp_fasta_path, local_alignment_dir
-            )
-        else:
-            logger.info(
-                f"Using precomputed alignments for {tag} at {alignment_dir}..."
-            )
+        alignment_runner = data_pipeline.AlignmentRunner(
+            jackhmmer_binary_path=args.jackhmmer_binary_path,
+            hhblits_binary_path=args.hhblits_binary_path,
+            uniref90_database_path=args.uniref90_database_path,
+            mgnify_database_path=args.mgnify_database_path,
+            bfd_database_path=args.bfd_database_path,
+            uniref30_database_path=args.uniref30_database_path,
+            uniclust30_database_path=args.uniclust30_database_path,
+            no_cpus=args.cpus,
+        )
+        alignment_runner.run(
+            tmp_fasta_path, local_alignment_dir
+        )
+        # 需要搜索 MSA
+        # else:
+        #     logger.info(
+        #         f"Using precomputed alignments for {tag} at {alignment_dir}..."
+        #     )
 
         # Remove temporary FASTA file
         os.remove(tmp_fasta_path)
