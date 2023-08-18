@@ -8,3 +8,7 @@ dist
 # files from script downloads
 tests/test_data/
 
+# mydata
+openfold/resources
+mydata/
+
