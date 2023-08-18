@@ -30,6 +30,7 @@ import pickle
 import random
 import time
 import torch
+from myutils.project_utils import mkdir_if_not_exist
 
 torch_versions = torch.__version__.split(".")
 torch_major_version = int(torch_versions[0])
@@ -81,7 +82,8 @@ def precompute_alignments(tags, seqs, alignment_dir, args, is_multimer):
         # if (args.use_precomputed_alignments is None and not os.path.isdir(local_alignment_dir)):
         logger.info(f"Generating alignments for {tag}...")
 
-        os.makedirs(local_alignment_dir)
+        # os.makedirs(local_alignment_dir)
+        mkdir_if_not_exist(local_alignment_dir)
 
         alignment_runner = data_pipeline.AlignmentRunner(
             jackhmmer_binary_path=args.jackhmmer_binary_path,
